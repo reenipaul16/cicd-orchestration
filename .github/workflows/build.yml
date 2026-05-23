@@ -1,4 +1,4 @@
-name: Build
+name: Build-${{ github.event.client-payload.app_names}}
 
 on:
   repository_dispatch:
@@ -11,7 +11,7 @@ permissions:
 env:  
  REGION: asia-south1
  REPO: repo-app
- IMAGE: app-image
+ IMAGE: ${{ github.event.client-payload.app_names}}
 
 jobs:
  # ── 1. Build and Push Docker image ──────────────────────────────────────────
@@ -42,8 +42,11 @@ jobs:
       - name: Build & push image
         working-directory: app
         run: |
-          IMAGE_URI=$REGION-docker.pkg.dev/$PROJECT_ID/$REPO/$IMAGE:${{ github.sha }}
+          TIMESTAMP=$(date +'%Y%m%d-%H%M%S')
+          echo $TIMESTAMP
+          IMAGE_URI=$REGION-docker.pkg.dev/$PROJECT_ID/$REPO/$IMAGE:$TIMESTAMP
+          echo $IMAGE_URI
           docker build -t $IMAGE_URI .
           # docker push $IMAGE_URI
-          docker tag $IMAGE_URI $REGION-docker.pkg.dev/$PROJECT_ID/$REPO/$IMAGE:latest
-          docker push $REGION-docker.pkg.dev/$PROJECT_ID/$REPO/$IMAGE:latest
+          #docker tag $IMAGE_URI $REGION-docker.pkg.dev/$PROJECT_ID/$REPO/$IMAGE:latest
+          docker push $IMAGE_URI
