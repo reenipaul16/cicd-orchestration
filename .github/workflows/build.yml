@@ -1,4 +1,4 @@
-name: Build-${{ github.event.client-payload.app_names}}
+name: Build-${{ github.event.client_payload.app_names }}
 
 on:
   repository_dispatch:
@@ -11,7 +11,7 @@ permissions:
 env:  
  REGION: asia-south1
  REPO: repo-app
- IMAGE: ${{ github.event.client-payload.app_names}}
+ IMAGE: ${{ github.event.client_payload.app_names}}
 
 jobs:
  # ── 1. Build and Push Docker image ──────────────────────────────────────────
