@@ -34,6 +34,9 @@ jobs:
           workload_identity_provider: 'projects/489414658403/locations/global/workloadIdentityPools/github/providers/application'
           service_account: 'sa-application@project-06cede75-fb8e-4bfb-984.iam.gserviceaccount.com'
 
+      - name: Setup gcloud SDK
+        uses: google-github-actions/setup-gcloud@v2
+        
       - name: Configure Docker for Artifact Registry
         run: gcloud auth configure-docker $REGION-docker.pkg.dev --quiet
 
