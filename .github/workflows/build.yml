@@ -9,6 +9,7 @@ permissions:
       id-token: write
 
 env:  
+ PROJECT_ID: project-06cede75-fb8e-4bfb-984
  REGION: asia-south1
  REPO: repo-app
  IMAGE: ${{ github.event.client_payload.app_names}}
