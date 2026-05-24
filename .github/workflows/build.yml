@@ -30,7 +30,7 @@ jobs:
          repository: reenipaul16/python-app
          token: ${{ secrets.CI_PAT }}
          path: app
-         
+
       - name: Authenticate to GCP
         uses: google-github-actions/auth@v2
         with:
@@ -52,9 +52,16 @@ jobs:
         run: |
           TIMESTAMP=$(date +'%Y%m%d-%H%M%S')
           echo $TIMESTAMP
+
           IMAGE_URI=$REGION-docker.pkg.dev/$PROJECT_ID/$REPO/$IMAGE:$TIMESTAMP
           echo $IMAGE_URI
-          docker build -t $IMAGE_URI .
-          # docker push $IMAGE_URI
-          #docker tag $IMAGE_URI $REGION-docker.pkg.dev/$PROJECT_ID/$REPO/$IMAGE:latest
+
+          docker build \
+          -f dockerfile/Dockerfile-$IMAGE \
+          -t "$IMAGE_URI" .
+
           docker push $IMAGE_URI
+# docker push $IMAGE_URI
+#docker tag $IMAGE_URI $REGION-docker.pkg.dev/$PROJECT_ID/$REPO/$IMAGE:latest
+
+          
