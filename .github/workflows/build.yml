@@ -36,7 +36,7 @@ jobs:
 
       - name: Setup gcloud SDK
         uses: google-github-actions/setup-gcloud@v2
-        
+
       - name: Configure Docker for Artifact Registry
         run: gcloud auth configure-docker $REGION-docker.pkg.dev --quiet
 
@@ -46,6 +46,11 @@ jobs:
       #       --repository-format=docker \
       #       --location=$REGION \
       #       --project=$PROJECT_ID || true
+
+      - name: Verify authentication
+        run: |
+          gcloud auth list
+          gcloud config list
 
       - name: Build & push image
         working-directory: app
