@@ -1,4 +1,4 @@
-name: Build-${{ github.event.client_payload.app_names }}
+name: Build
 
 on:
   repository_dispatch:
@@ -17,7 +17,7 @@ env:
 jobs:
  # ── 1. Build and Push Docker image ──────────────────────────────────────────
   build:
-    name: Build & Push Image
+    name: Build-${{ github.event.client_payload.app_names }}
     runs-on: ubuntu-latest
 
     steps:
