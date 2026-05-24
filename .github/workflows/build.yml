@@ -24,6 +24,13 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Checkout application repo
+        uses: actions/checkout@v4
+        with:
+         repository: reenipaul16/python-app
+         token: ${{ secrets.CI_PAT }}
+         path: app
+         
       - name: Authenticate to GCP
         uses: google-github-actions/auth@v2
         with:
