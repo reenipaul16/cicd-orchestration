@@ -10,7 +10,7 @@ permissions:
 
 env:
    HELM_DIR: ${{ github.event.client_payload.helm_dir }}
-   REPO_URL: ${{ github.event.client_payload.repo_url }}
+   REPO_NAME: ${{ github.event.client_payload.repo_name }}
 
 jobs:
   deploy:
@@ -19,6 +19,12 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Checkout application repository
+        uses: actions/checkout@v4
+        with:
+          repository: $REPO_NAME
+          token: ${{ secrets.CI_PAT }}
 
       - name: Authenticate to GCP
         uses: google-github-actions/auth@v2
@@ -53,5 +59,5 @@ jobs:
         run: |
           echo "Chart Dir   : ${{ steps.helm.outputs.chart_dir }}"
           echo "Release Name: ${{ steps.helm.outputs.release_name }}"
-          helm upgrade --install ${{ steps.helm.outputs.release_name }} $REPO_URL/${{ steps.helm.outputs.chart_dir }} \
+          helm upgrade --install ${{ steps.helm.outputs.release_name }} ./$REPO_NAME/${{ steps.helm.outputs.chart_dir }} \
           --rollback-on-failure \
