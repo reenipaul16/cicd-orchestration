@@ -49,5 +49,7 @@ jobs:
 
       - name: Deploy
         run: |
-          helm upgrade --install "${{ steps.release.outputs.release_name }}" "${{ steps.release.outputs.chart_dir }}" \
+          echo "Chart Dir   : ${{ steps.helm.outputs.release_name }}"
+          echo "Release Name: ${{ steps.helm.outputs.chart_dir }}"
+          helm upgrade --install "${{ steps.helm.outputs.release_name }}" "${{ steps.helm.outputs.chart_dir }}" \
           --rollback-on-failure \
