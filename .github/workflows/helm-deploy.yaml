@@ -23,7 +23,7 @@ jobs:
       - name: Checkout application repository
         uses: actions/checkout@v4
         with:
-          repository: $REPO_NAME
+          repository: ${{ github.event.client_payload.repo_name }}
           token: ${{ secrets.CI_PAT }}
 
       - name: Authenticate to GCP
