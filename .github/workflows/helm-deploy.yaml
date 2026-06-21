@@ -59,5 +59,5 @@ jobs:
         run: |
           echo "Chart Dir   : ${{ steps.helm.outputs.chart_dir }}"
           echo "Release Name: ${{ steps.helm.outputs.release_name }}"
-          helm upgrade --install ${{ steps.helm.outputs.release_name }} ./$REPO_NAME/${{ steps.helm.outputs.chart_dir }} \
+          helm upgrade --install ${{ steps.helm.outputs.release_name }} ${{ steps.helm.outputs.chart_dir }} \
           --rollback-on-failure \
