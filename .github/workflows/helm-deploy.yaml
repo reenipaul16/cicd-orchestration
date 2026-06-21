@@ -8,6 +8,9 @@ permissions:
       contents: read
       id-token: write
 
+env:
+   HELM_DIR: ${{ github.event.client_payload.helm_dir }}
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -31,7 +34,20 @@ jobs:
       - name: Setup Helm
         uses: azure/setup-helm@v4
 
+      - name: Extract Helm details
+        id: helm
+        run: |
+          CHART_DIR=$(dirname "${HELM_DIR}")
+
+          RELEASE_NAME=$(echo "${CHART_DIR}" | cut -d'/' -f1)
+
+          echo "chart_dir=${CHART_DIR}" >> "$GITHUB_OUTPUT"
+          echo "release_name=${RELEASE_NAME}" >> "$GITHUB_OUTPUT"
+
+          echo "Chart Dir   : ${CHART_DIR}"
+          echo "Release Name: ${RELEASE_NAME}"
+
       - name: Deploy
         run: |
-          helm upgrade --install frontend-app ./helm \
-            --namespace app
+          helm upgrade --install "${{ steps.release.outputs.release_name }}" "${{ steps.release.outputs.chart_dir }}" \
+          --rollback-on-failure \

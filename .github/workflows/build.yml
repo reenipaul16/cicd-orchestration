@@ -13,7 +13,7 @@ env:
  REGION: asia-south1
  REPO: repo-app
  IMAGE: ${{ github.event.client_payload.app_names}}
-
+ 
 jobs:
  # ── 1. Build and Push Docker image ──────────────────────────────────────────
   build:
