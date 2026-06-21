@@ -10,6 +10,7 @@ permissions:
 
 env:
    HELM_DIR: ${{ github.event.client_payload.helm_dir }}
+   REPO_URL: ${{ github.event.client_payload.repo_url }}
 
 jobs:
   deploy:
@@ -37,6 +38,7 @@ jobs:
       - name: Extract Helm details
         id: helm
         run: |
+          echo "$REPO_URL"
           CHART_DIR=$(dirname "${HELM_DIR}")
 
           RELEASE_NAME=$(echo "${CHART_DIR}" | cut -d'/' -f1)
